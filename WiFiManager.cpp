@@ -196,7 +196,16 @@ boolean  WiFiManager::startConfigPortal(char const *apName, char const *apPasswo
     //HTTP
     server->handleClient();
 
-
+	  //added to solve the problem of power cut -> keep trying to connect using last saved values **edit1
+	  //and to solve the problem of connected but still waiting for the ssid and password
+	if (WiFi.status() == WL_CONNECTED || connectWifi("", "") == WL_CONNECTED ){
+	WiFi.mode(WIFI_STA);
+	DEBUG_WM(F("connected with last saved values, AP will be closed"));
+	DEBUG_WM(F("IP Address:"));
+        DEBUG_WM(WiFi.localIP());
+	}
+	  //not tested yet **edit1
+	  
     if (connect) {
       connect = false;
       delay(2000);
