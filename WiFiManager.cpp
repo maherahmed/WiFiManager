@@ -196,15 +196,15 @@ boolean  WiFiManager::startConfigPortal(char const *apName, char const *apPasswo
     //HTTP
     server->handleClient();
 
-	  //added to solve the problem of power cut -> keep trying to connect using last saved values **edit1
-	  //and to solve the problem of connected but still waiting for the ssid and password
-	if (WiFi.status() == WL_CONNECTED || connectWifi("", "") == WL_CONNECTED ){
+	  //added to solve the problem of power cut -> keep trying to connect using last saved values **edit#1
+	  
+	if (WiFi.status() == WL_CONNECTED){
 	WiFi.mode(WIFI_STA);
 	DEBUG_WM(F("connected with last saved values, AP will be closed"));
 	DEBUG_WM(F("IP Address:"));
         DEBUG_WM(WiFi.localIP());
 	}
-	  //not tested yet **edit1
+	  //not tested yet **edit#1
 	  
     if (connect) {
       connect = false;
@@ -262,6 +262,7 @@ int WiFiManager::connectWifi(String ssid, String pass) {
   //check if we have ssid and pass and force those, if not, try with last saved values
   if (ssid != "") {
     WiFi.begin(ssid.c_str(), pass.c_str());
+	delay(1000);//and to solve the problem of connected but still waiting for the ssid and password edit#2
   } else {
     if (WiFi.SSID()) {
       DEBUG_WM("Using last saved values, should be faster");
@@ -271,6 +272,7 @@ int WiFiManager::connectWifi(String ssid, String pass) {
       ETS_UART_INTR_ENABLE();
 
       WiFi.begin();
+delay(1000); //and to solve the problem of connected but still waiting for the ssid and password edit#3
     } else {
       DEBUG_WM("No saved credentials");
     }
