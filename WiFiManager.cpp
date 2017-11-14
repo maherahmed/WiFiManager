@@ -203,6 +203,7 @@ boolean  WiFiManager::startConfigPortal(char const *apName, char const *apPasswo
 	DEBUG_WM(F("connected with last saved values, AP will be closed"));
 	DEBUG_WM(F("IP Address:"));
         DEBUG_WM(WiFi.localIP());
+	break;
 	}
 	  //not tested yet **edit#1
 	  
